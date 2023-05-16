@@ -1,0 +1,32 @@
+Openshift configure NTP
+
+#Butane file for worker node
+variant: openshift
+version: 4.12.15
+metadata:
+  name: 99-worker-chrony 
+  labels:
+    machineconfiguration.openshift.io/role: worker 
+storage:
+  files:
+  - path: /etc/chrony.conf
+    mode: 0644 
+    overwrite: true
+    contents:
+      inline: |
+        pool 10.32.32.11 iburst 
+        driftfile /var/lib/chrony/drift
+        makestep 1.0 3
+        rtcsync
+        logdir /var/log/chrony
+        
+      
+      
+#Butane file for master node
+
+
+#Butane command
+$ butane 99-worker-chrony.bu -o 99-worker-chrony.yaml
+# Install butane command
+$ curl https://mirror.openshift.com/pub/openshift-v4/clients/butane/latest/butane --output butane
+$ chmod +x butane
