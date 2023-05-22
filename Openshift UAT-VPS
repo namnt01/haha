@@ -92,4 +92,31 @@ spec:
     limits.cpu: "2"  
     limits.memory: 2Gi  
     limits.ephemeral-storage: 4Gi  
+    
+    
+ Network traffic
+ objects: 
+- apiVersion: networking.k8s.io/v1 
+  kind: NetworkPolicy 
+  metadata: 
+    name: allow-from-same-namespace 
+  spec: 
+    podSelector: 
+    ingress: 
+    - from: 
+      - podSelector: {} 
+- apiVersion: networking.k8s.io/v1 
+  kind: NetworkPolicy 
+  metadata: 
+    name: allow-from-openshift-ingress 
+  spec: 
+    ingress: 
+    - from: 
+      - namespaceSelector: 
+          matchLabels: 
+            network.openshift.io/policy-group: ingress 
+    podSelector: {} 
+    policyTypes: 
+    - Ingress 
+
 
