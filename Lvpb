@@ -1,0 +1,11 @@
+1.	Review the requirements, supported platforms, and other prerequisites. 
+2.	Download the installer on a dedicated Linux machine using this command: 
+wget -O dynatrace-managed.sh 
+"https://mcsvc-ap.dynatrace.com/downloads/installer/get/latest?token=AQECAHgWRMdElTYfhZCupuE7ykwW1JOgVOWYNXb8u4pNcPM3owAAAIQwgYEGCSqGSIb3DQEHBqB0MHICAQAwbQYJKoZIhvcNAQcBMB4GCWCGSAFlAwQBLjARBAz5dhgtakb1R-dlnvgCARCAQLdxXULv6saw3EZZklxMEWtfcEGVaL-8WUJk5Kxb7cpoiNiWlVOTZ1uz_MQAVaKA-aAzaDWWSCN9gbyUIRth3j4" 
+Alternatively, you can download the installer manually and save it as 'dynatrace-managed.sh'.
+3.	When the download completes, you can verify the installer file signature using this command: 
+wget -qO dt-root.cert.pem https://mcsvc-ap.dynatrace.com/dt-root.cert.pem; wget -qO dynatrace-managed.sh.sig https://mcsvc-ap.dynatrace.com/downloads/signature?filename=$(grep -am 1 'ARCH_FILE_NAME=' dynatrace-managed.sh | cut -d= -f2 |sed 's/.tar.gz$//'); openssl cms -inform PEM -binary -verify -CAfile dt-root.cert.pem -in dynatrace-managed.sh.sig -content dynatrace-managed.sh > /dev/null 
+4.	Start the installer with root rights:
+/bin/sh dynatrace-managed.sh --license OIdpLM59uKhRnuW1 
+To see all installation options, run this command:
+/bin/sh dynatrace-managed.sh --help 
